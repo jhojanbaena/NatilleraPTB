@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Prueba Supabase</title>
+</head>
+<body>
+  <h1>Prueba Supabase</h1>
+  <button onclick="agregar()">Agregar tarea</button>
+  <ul id="lista"></ul>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const supabaseClient = supabase.createClient(
+  'https://zwhigllygutqiqdlbtwp.supabase.co',
+  'sb_publishable_CQmIwnKIJnXUnEP1AqqPZQ_9vgIbwKg'
+)
+
+    async function cargar() {
+      const { data, error } = await supabaseClient
+        .from('tabla_natillera')
+        .select('*')
+      if (error) { console.error(error); return }
+      document.getElementById('lista').innerHTML =
+        data.map(f => `<li>${f.titulo}</li>`).join('')
+    }
+
+    async function agregar() {
+      const { error } = await supabaseClient
+        .from('tabla_natillera')
+        .insert([{ titulo: 'Tarea desde la web', completada: false }])
+      if (error) { console.error(error); return }
+      cargar()
+    }
+
+    cargar()
+  </script>
+</body>
+</html>

@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def validate_settings(self) -> "Settings":
         if len(self.SECRET_KEY) < 32:
-            raise ValueError("SECRET_KEY debe configurarse y tener al menos 32 caracteres")
+            raise ValueError("")
         if make_url(self.DATABASE_URL).get_backend_name() != "postgresql":
             raise ValueError("DATABASE_URL debe usar PostgreSQL")
         return self
